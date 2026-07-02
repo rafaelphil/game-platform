@@ -1,12 +1,11 @@
 package com.rafael.game_platform.games;
 
+import com.rafael.game_platform.games.records.CreateGameRequest;
 import com.rafael.game_platform.games.records.GameDto;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,5 +28,11 @@ public class GameController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(gameDto);
+    }
+
+    @PostMapping
+    public ResponseEntity<GameDto> createGame(@RequestBody CreateGameRequest createGameRequest) {
+        GameDto dto = gameService.createGame(createGameRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
 }

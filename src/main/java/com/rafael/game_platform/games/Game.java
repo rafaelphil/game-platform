@@ -1,5 +1,6 @@
 package com.rafael.game_platform.games;
 
+import com.rafael.game_platform.users.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,7 @@ public class Game {
     private Float price;
     private LocalDateTime releaseDate;
     private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "developer_id")
+    private User developer;
 }
