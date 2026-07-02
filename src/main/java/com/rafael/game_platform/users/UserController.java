@@ -1,6 +1,8 @@
 package com.rafael.game_platform.users;
 
+import com.rafael.game_platform.users.records.UserDto;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,16 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping
-    public List<User> findAll(){
-        return userRepository.findAll();
+    public List<UserDto> findAll(){
+        return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id){
-        User user  = userRepository.findById(id).orElse(null);
+    public ResponseEntity<UserDto> getUser(@PathVariable Long id){
+        UserDto user  = userService.getUserById(id);
         if(user == null){
             return ResponseEntity.notFound().build();
         }
