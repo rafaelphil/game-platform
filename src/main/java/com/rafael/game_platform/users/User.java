@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
+import java.util.EnumSet;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,8 @@ public class User {
     private String password;
     private LocalDateTime lastOnline;
     private LocalDateTime createdAt;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     @OneToMany(mappedBy = "developer")
     private List<Game> games;
 }
