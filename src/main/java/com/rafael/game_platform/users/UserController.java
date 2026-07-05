@@ -22,9 +22,6 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(@PathVariable Long id){
         UserDto user  = userService.getUserById(id);
-        if(user == null){
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(user);
     }
 }

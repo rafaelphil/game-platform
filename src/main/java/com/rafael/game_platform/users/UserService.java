@@ -1,8 +1,10 @@
 package com.rafael.game_platform.users;
 
+import com.rafael.game_platform.exceptions.UserNotFoundException;
 import com.rafael.game_platform.users.records.UserDto;
 import com.rafael.game_platform.users.records.UserMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +22,7 @@ public class UserService {
     public UserDto getUserById(Long id){
         User user = userRepository.findById(id).orElse(null);
         if(user == null){
-            return null;
+            throw new UserNotFoundException();
         }
         return userMapper.toDto(user);
     }
