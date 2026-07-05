@@ -2,6 +2,8 @@ package com.rafael.game_platform.users;
 
 import com.rafael.game_platform.games.Game;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,7 +22,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
+    @Size(min = 3, max = 20)
     private String username;
+    @NotBlank
+    @Size(min = 8)
     private String password;
     private LocalDateTime lastOnline;
     private LocalDateTime createdAt;

@@ -9,6 +9,6 @@ public record GameDto(
         String genre,
         Float price,
         LocalDateTime releaseDate,
-        User developer
+        String developerName
 ) {
 }

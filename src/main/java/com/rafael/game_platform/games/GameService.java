@@ -1,11 +1,16 @@
 package com.rafael.game_platform.games;
 
+import com.rafael.game_platform.exceptions.GameAlreadyExistsException;
+import com.rafael.game_platform.exceptions.GameNotFoundException;
+import com.rafael.game_platform.exceptions.UsernameAlreadyExistsException;
 import com.rafael.game_platform.games.records.CreateGameRequest;
 import com.rafael.game_platform.games.records.GameDto;
 import com.rafael.game_platform.games.records.GameMapper;
 import com.rafael.game_platform.users.User;
 import com.rafael.game_platform.users.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,14 +28,17 @@ public class GameService {
     }
 
     public GameDto getGame(Long id) {
-        Game game = gameRepository.findById(id).orElse(null);
-        if(game == null){
-            return null;
-        }
+        Game game = gameRepository.findById(id).orElseThrow(GameNotFoundException::new);
         return gameMapper.toDto(game);
     }
 
     public GameDto createGame(CreateGameRequest createGameRequest) {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        if(gameRepository.existsByDeveloperAndTitle(user, createGameRequest.title())){
+            throw new GameAlreadyExistsException(createGameRequest.title());
+        }
+
         Game game = new Game();
         game.setTitle(createGameRequest.title());
         game.setGenre(createGameRequest.genre());

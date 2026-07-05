@@ -2,6 +2,7 @@ package com.rafael.game_platform.games;
 
 import com.rafael.game_platform.games.records.CreateGameRequest;
 import com.rafael.game_platform.games.records.GameDto;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class GameController {
     }
 
     @PostMapping
-    public ResponseEntity<GameDto> createGame(@RequestBody CreateGameRequest createGameRequest) {
+    public ResponseEntity<GameDto> createGame(@Valid @RequestBody CreateGameRequest createGameRequest) {
         GameDto dto = gameService.createGame(createGameRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(dto);
     }
