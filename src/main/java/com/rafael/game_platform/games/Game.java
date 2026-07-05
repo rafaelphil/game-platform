@@ -1,5 +1,6 @@
 package com.rafael.game_platform.games;
 
+import com.rafael.game_platform.reviews.Review;
 import com.rafael.game_platform.users.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,4 +35,6 @@ public class Game {
     @ManyToOne
     @JoinColumn(name = "developer_id")
     private User developer;
+    @OneToMany(mappedBy = "game")
+    private List<Review> reviews;
 }
