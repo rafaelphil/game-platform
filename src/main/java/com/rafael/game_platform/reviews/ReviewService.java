@@ -1,6 +1,8 @@
 package com.rafael.game_platform.reviews;
 
+import com.rafael.game_platform.exceptions.GameNotFoundException;
 import com.rafael.game_platform.exceptions.ReviewAlreadyExistsException;
+import com.rafael.game_platform.exceptions.UserNotFoundException;
 import com.rafael.game_platform.games.Game;
 import com.rafael.game_platform.games.GameRepository;
 import com.rafael.game_platform.reviews.records.CreateReviewRequest;
@@ -27,8 +29,8 @@ public class ReviewService {
     }
 
     public ReviewDto createReview(CreateReviewRequest createReviewRequest) {
-        User user = userRepository.getById(createReviewRequest.userId());
-        Game game = gameRepository.getById(createReviewRequest.gameId());
+        User user = userRepository.findById(createReviewRequest.userId()).orElseThrow(UserNotFoundException::new);
+        Game game = gameRepository.findById(createReviewRequest.gameId()).orElseThrow(GameNotFoundException::new);
 
         if(reviewRepository.existsByGameAndAuthor(game, user)){
             throw new ReviewAlreadyExistsException();

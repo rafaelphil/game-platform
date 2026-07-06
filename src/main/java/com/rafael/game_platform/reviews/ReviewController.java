@@ -1,11 +1,10 @@
 package com.rafael.game_platform.reviews;
 
+import com.rafael.game_platform.reviews.records.CreateReviewRequest;
 import com.rafael.game_platform.reviews.records.ReviewDto;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +19,8 @@ public class ReviewController {
         return reviewService.getReviews();
     }
 
-
+    @PostMapping
+    public ReviewDto createReview(@RequestBody CreateReviewRequest createReviewRequest) {
+        return reviewService.createReview(createReviewRequest);
+    }
 }

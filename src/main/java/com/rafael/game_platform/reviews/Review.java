@@ -3,6 +3,7 @@ package com.rafael.game_platform.reviews;
 import com.rafael.game_platform.games.Game;
 import com.rafael.game_platform.users.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class Review {
     @NotBlank
     @Size(min = 1, max = 1000)
     private String content;
-    @Size(min = 0, max = 10)
+    @Max(10)
     private Float rating;
     private LocalDateTime createdAt;
     @ManyToOne
