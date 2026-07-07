@@ -2,7 +2,6 @@ package com.rafael.game_platform.users;
 
 import com.rafael.game_platform.users.records.UserDto;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,4 +23,11 @@ public class UserController {
         UserDto user  = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
+
+    @DeleteMapping
+    public ResponseEntity<?> deleteUser(){
+        userService.deleteUser();
+        return ResponseEntity.ok().build();
+    }
+
 }

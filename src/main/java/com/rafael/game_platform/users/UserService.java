@@ -4,7 +4,8 @@ import com.rafael.game_platform.exceptions.UserNotFoundException;
 import com.rafael.game_platform.users.records.UserDto;
 import com.rafael.game_platform.users.records.UserMapper;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,5 +26,11 @@ public class UserService {
             throw new UserNotFoundException();
         }
         return userMapper.toDto(user);
+    }
+
+    public void deleteUser(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        userRepository.delete(user);
     }
 }
