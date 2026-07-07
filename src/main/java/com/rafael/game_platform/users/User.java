@@ -1,16 +1,15 @@
 package com.rafael.game_platform.users;
 
 import com.rafael.game_platform.games.Game;
+import com.rafael.game_platform.library.Library;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDateTime;
-import java.util.EnumSet;
 import java.util.List;
 
 @Entity
@@ -34,4 +33,6 @@ public class User {
     private Role role;
     @OneToMany(mappedBy = "developer")
     private List<Game> games;
+    @OneToMany(mappedBy = "user")
+    private List<Library> libraryGames;
 }

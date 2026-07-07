@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_id","game_id"}))
+@Table(name="libraries", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id","game_id"}))
 public class Library {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

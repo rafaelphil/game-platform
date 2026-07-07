@@ -2,7 +2,6 @@ package com.rafael.game_platform.games;
 
 import com.rafael.game_platform.exceptions.GameAlreadyExistsException;
 import com.rafael.game_platform.exceptions.GameNotFoundException;
-import com.rafael.game_platform.exceptions.UsernameAlreadyExistsException;
 import com.rafael.game_platform.games.records.CreateGameRequest;
 import com.rafael.game_platform.games.records.GameDto;
 import com.rafael.game_platform.games.records.GameMapper;
