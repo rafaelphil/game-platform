@@ -1,12 +1,10 @@
 package com.rafael.game_platform.library;
 
+import com.rafael.game_platform.library.records.CreateLibraryRequest;
 import com.rafael.game_platform.library.records.LibraryDto;
 import com.rafael.game_platform.users.User;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,10 @@ public class LibraryController {
         }
 
         return libraryService.findAll();
+    }
+
+    @PostMapping
+    public LibraryDto save(@RequestBody CreateLibraryRequest createLibraryRequest){
+        return libraryService.addToLibrary(createLibraryRequest);
     }
 }
