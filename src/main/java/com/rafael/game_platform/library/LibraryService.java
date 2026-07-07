@@ -1,18 +1,20 @@
 package com.rafael.game_platform.library;
 
-import com.rafael.game_platform.exceptions.GameAlreadyExistsException;
-import com.rafael.game_platform.exceptions.GameAlreadyOwnedException;
-import com.rafael.game_platform.exceptions.GameNotFoundException;
-import com.rafael.game_platform.exceptions.UserNotFoundException;
+import com.rafael.game_platform.exceptions.*;
 import com.rafael.game_platform.games.Game;
 import com.rafael.game_platform.games.GameRepository;
 import com.rafael.game_platform.library.records.CreateLibraryRequest;
 import com.rafael.game_platform.library.records.LibraryDto;
 import com.rafael.game_platform.library.records.LibraryMapper;
+import com.rafael.game_platform.library.records.UpdateHoursPlayedRequest;
 import com.rafael.game_platform.users.User;
 import com.rafael.game_platform.users.UserRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.Cache;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,6 +55,17 @@ public class LibraryService {
         library.setGame(game);
         library.setHoursPlayed(0);
         library.setAddedAt(LocalDateTime.now());
+        libraryRepository.save(library);
+        return libraryMapper.toDto(library);
+    }
+
+    public LibraryDto updateHoursPlayed(@RequestBody UpdateHoursPlayedRequest updateHoursPlayedRequest){
+        User user = userRepository.findById(updateHoursPlayedRequest.userId()).orElseThrow(UserNotFoundException::new);
+        Game game = gameRepository.findById(updateHoursPlayedRequest.gameId()).orElseThrow(GameNotFoundException::new);
+
+        Library library = libraryRepository.findByUserAndGame(user, game).orElseThrow(GameNotOwnedException::new);
+        library.setHoursPlayed(updateHoursPlayedRequest.hoursPlayed());
+
         libraryRepository.save(library);
         return libraryMapper.toDto(library);
     }
