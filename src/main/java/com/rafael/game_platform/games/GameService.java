@@ -48,4 +48,9 @@ public class GameService {
         gameRepository.save(game);
         return gameMapper.toDto(game);
     }
+
+    public void deleteGame(Long id) {
+        if(!gameRepository.existsById(id)) throw new GameNotFoundException();
+        gameRepository.deleteById(id);
+    }
 }
