@@ -3,10 +3,9 @@ package com.rafael.game_platform.library;
 import com.rafael.game_platform.library.records.CreateLibraryRequest;
 import com.rafael.game_platform.library.records.LibraryDto;
 import com.rafael.game_platform.library.records.UpdateHoursPlayedRequest;
-import com.rafael.game_platform.users.User;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,5 +33,11 @@ public class LibraryController {
     @PatchMapping("/hours")
     public LibraryDto updateHoursPlayed(@Valid @RequestBody UpdateHoursPlayedRequest updateHoursPlayedRequest){
         return libraryService.updateHoursPlayed(updateHoursPlayedRequest);
+    }
+
+    @DeleteMapping("/{gameId}")
+    public ResponseEntity<?> delete(@PathVariable Long gameId){
+        libraryService.removeFromLibrary(gameId);
+        return ResponseEntity.ok().build();
     }
 }

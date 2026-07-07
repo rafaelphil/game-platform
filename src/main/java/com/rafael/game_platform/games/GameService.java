@@ -2,6 +2,7 @@ package com.rafael.game_platform.games;
 
 import com.rafael.game_platform.exceptions.GameAlreadyExistsException;
 import com.rafael.game_platform.exceptions.GameNotFoundException;
+import com.rafael.game_platform.exceptions.UserNotFoundException;
 import com.rafael.game_platform.games.records.CreateGameRequest;
 import com.rafael.game_platform.games.records.GameDto;
 import com.rafael.game_platform.games.records.GameMapper;
@@ -33,7 +34,7 @@ public class GameService {
 
     public GameDto createGame(CreateGameRequest createGameRequest) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUsername(userDetails.getUsername());
+        User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow(UserNotFoundException::new);
         if(gameRepository.existsByDeveloperAndTitle(user, createGameRequest.title())){
             throw new GameAlreadyExistsException(createGameRequest.title());
         }

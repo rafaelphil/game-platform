@@ -9,9 +9,7 @@ import com.rafael.game_platform.library.records.LibraryMapper;
 import com.rafael.game_platform.library.records.UpdateHoursPlayedRequest;
 import com.rafael.game_platform.users.User;
 import com.rafael.game_platform.users.UserRepository;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.hibernate.annotations.Cache;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,13 +29,8 @@ public class LibraryService {
         return libraryRepository.findAll().stream().map(libraryMapper::toDto).toList();
     }
 
-    public List<LibraryDto> findByUserId(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        return libraryRepository.findByUser(user).stream().map(libraryMapper::toDto).toList();
-    }
-
     public List<LibraryDto> findByUsername(String username){
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         if(user == null){throw new UserNotFoundException();}
         return libraryRepository.findByUser(user).stream().map(libraryMapper::toDto).toList();
     }
@@ -68,5 +61,14 @@ public class LibraryService {
 
         libraryRepository.save(library);
         return libraryMapper.toDto(library);
+    }
+
+    public void removeFromLibrary(Long gameId){
+        String username =  SecurityContextHolder.getContext().getAuthentication().getName();
+        User user  = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+        Game game = gameRepository.findById(gameId).orElseThrow(GameNotFoundException::new);
+
+        Library library = libraryRepository.findByUserAndGame(user, game).orElseThrow(GameNotOwnedException::new);
+        libraryRepository.delete(library);
     }
 }

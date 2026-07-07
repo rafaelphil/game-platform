@@ -8,6 +8,7 @@ import com.rafael.game_platform.games.GameRepository;
 import com.rafael.game_platform.reviews.records.CreateReviewRequest;
 import com.rafael.game_platform.reviews.records.ReviewDto;
 import com.rafael.game_platform.reviews.records.ReviewMapper;
+import com.rafael.game_platform.reviews.records.UpdateReviewRequest;
 import com.rafael.game_platform.users.User;
 import com.rafael.game_platform.users.UserRepository;
 import lombok.AllArgsConstructor;
@@ -45,5 +46,16 @@ public class ReviewService {
 
         reviewRepository.save(review);
         return reviewMapper.toDto(reviewRepository.save(review));
+    }
+
+    public ReviewDto updateReview(Long reviewId, UpdateReviewRequest updateReviewRequest) {
+        Review review = reviewRepository.findById(reviewId).orElseThrow();
+        review.setContent(updateReviewRequest.newContent());
+        review.setRating(updateReviewRequest.newRating());
+        return reviewMapper.toDto(reviewRepository.save(review));
+    }
+
+    public void deleteReview(Long reviewId) {
+        reviewRepository.deleteById(reviewId);
     }
 }

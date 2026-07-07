@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LibraryRepository extends JpaRepository<Library, Long> {
-    public List<Library> findByUser(User user);
-    public boolean existsByUserAndGame(User user, Game game);
-    public Optional<Library> findByUserAndGame(User user, Game game);
+    List<Library> findByUser(User user);
+    boolean existsByUserAndGame(User user, Game game);
+    Optional<Library> findByUserAndGame(User user, Game game);
 }

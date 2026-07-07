@@ -1,5 +1,6 @@
 package com.rafael.game_platform.authentication;
 
+import com.rafael.game_platform.exceptions.UserNotFoundException;
 import com.rafael.game_platform.users.User;
 import com.rafael.game_platform.users.UserRepository;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @NonNull
     @Override
     public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
         if(user == null) {
             throw new UsernameNotFoundException(username);
         }
